@@ -1,5 +1,8 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.utils.ArgParser;
+import org.apache.commons.cli.*;
+
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
  * design. Read: create your own classes and packages as appropriate.
@@ -13,8 +16,9 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
+        CommandLine cmd = ArgParser.parseArgs(args);
 
-        // Your preparation code …
+        String inputFilePath = cmd.getOptionValue("inputFile");
 
         String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);

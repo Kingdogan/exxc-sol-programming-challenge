@@ -24,6 +24,19 @@ public class ArgParserTest {
   }
 
   @Test
+  void testParseArgsFootballTask() {
+    String[] args = {"--football", "football.csv"};
+    CommandLine cmd = null;
+    try {
+      cmd = ArgParser.parseArgs(args);
+    } catch (ParseException e) {
+      fail(e.getMessage());
+    }
+    assertTrue(cmd.hasOption("football"));
+    assertEquals("football.csv", cmd.getOptionValue("f"));
+  }
+
+  @Test
   void testParseArgsEmptyArgs() {
     String[] args = {};
     CommandLine cmd = null;

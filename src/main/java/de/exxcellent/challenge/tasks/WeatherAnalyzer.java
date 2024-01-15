@@ -11,15 +11,15 @@ public class WeatherAnalyzer {
    */
   public static String findDayWithSmallestTemperatureSpread(List<String[]> weatherData) {
     // First we check if the columns Day, MxT and MnT exist
-    int columnDay = findIndex(weatherData, "Day");
+    int columnDay = findColumnIndex(weatherData, "Day");
     if (columnDay == -1) {
       throw new IllegalArgumentException("Missing column: Day");
     }
-    int columnMxT = findIndex(weatherData, "MxT");
+    int columnMxT = findColumnIndex(weatherData, "MxT");
     if (columnMxT == -1) {
       throw new IllegalArgumentException("Missing column: MxT");
     }
-    int columnMnT = findIndex(weatherData, "MnT");
+    int columnMnT = findColumnIndex(weatherData, "MnT");
     if (columnMnT == -1) {
       throw new IllegalArgumentException("Missing column: MnT");
     }
@@ -38,7 +38,7 @@ public class WeatherAnalyzer {
     return daySmallestSpread;
   }
 
-  private static int findIndex(List<String[]> data, String target) {
+  private static int findColumnIndex(List<String[]> data, String target) {
     for (String[] line : data) {
       for (int i = 0; i < line.length; i++) {
         if (line[i].equals(target)) {

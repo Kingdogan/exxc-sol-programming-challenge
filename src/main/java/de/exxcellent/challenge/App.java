@@ -2,10 +2,14 @@ package de.exxcellent.challenge;
 
 import de.exxcellent.challenge.tasks.WeatherAnalyzer;
 import de.exxcellent.challenge.utils.ArgParser;
+import de.exxcellent.challenge.utils.io.CsvReader;
 import org.apache.commons.cli.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
@@ -23,11 +27,11 @@ public final class App {
         try {
             CommandLine cmd = ArgParser.parseArgs(args);
 
+            // weather task
             if (cmd.hasOption("w") || cmd.hasOption("weather")) {
                 String fileName = cmd.getOptionValue("weather");
                 if (checkIfFileExists(fileName)) {
-                    String dayWithSmallestTempSpread = WeatherAnalyzer.findDayWithSmallestTemperatureSpread(fileName);
-                    System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+                    analyzeWeather(fileName);
                 } else {
                     throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
                         "resources/de/exxcellent/challenge folder.");
@@ -37,8 +41,8 @@ public final class App {
             String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
             System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
         }
-        catch (FileNotFoundException | ParseException e){
-            System.out.println(e.getMessage());
+        catch (ParseException | IOException | URISyntaxException e){
+            System.out.println("There has been an error: " + e.getMessage());
         }
     }
 
@@ -51,4 +55,11 @@ public final class App {
         URL fileURL = App.class.getClassLoader().getResource("de/exxcellent/challenge/" + fileName);
         return fileURL != null;
     }
+
+    private static void analyzeWeather(String fileName) throws IOException, URISyntaxException {
+        List<String[]> weatherData = new CsvReader().readFile(fileName);
+        String dayWithSmallestTempSpread = WeatherAnalyzer.findDayWithSmallestTemperatureSpread(weatherData);
+        System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+    }
+
 }

@@ -14,7 +14,7 @@ public class ArgParser {
    * @param args The CLI arguments
    * @return The parsed CLI arguments
    */
-  public static CommandLine parseArgs(String... args) {
+  public static CommandLine parseArgs(String... args) throws ParseException {
     CommandLineParser parser = new DefaultParser();
     Options options = new Options();
 
@@ -31,8 +31,8 @@ public class ArgParser {
     try {
       cmd = parser.parse(options, args);
     } catch (ParseException e) {
-      System.out.println("Error parsing command-line arguments: " + e.getMessage());
-      System.exit(1);
+      String errMessage = "Error parsing command-line arguments: " + e.getMessage();
+      throw new ParseException(errMessage);
     }
     return cmd;
   }

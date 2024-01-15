@@ -19,9 +19,9 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        CommandLine cmd = ArgParser.parseArgs(args);
-
         try {
+            CommandLine cmd = ArgParser.parseArgs(args);
+
             if (cmd.hasOption("w") || cmd.hasOption("weather")) {
                 String fileName = cmd.getOptionValue("weather");
                 if (checkIfFileExists(fileName)) {
@@ -31,17 +31,16 @@ public final class App {
                         "resources/de/exxcellent/challenge folder.");
                 }
             }
+
+            String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
+            System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+
+            String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+            System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
         }
-        catch (FileNotFoundException e){
+        catch (FileNotFoundException | ParseException e){
             System.out.println(e.getMessage());
-            System.exit(1);
         }
-
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-        System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
-
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
-        System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 
     /***

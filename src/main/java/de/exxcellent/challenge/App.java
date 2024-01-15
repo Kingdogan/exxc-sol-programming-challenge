@@ -1,5 +1,6 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.tasks.FootballAnalyzer;
 import de.exxcellent.challenge.tasks.WeatherAnalyzer;
 import de.exxcellent.challenge.utils.ArgParser;
 import de.exxcellent.challenge.utils.io.CsvReader;
@@ -38,8 +39,16 @@ public final class App {
                 }
             }
 
-            String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
-            System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+            // football task
+            if (cmd.hasOption("f") || cmd.hasOption("football")) {
+                String fileName = cmd.getOptionValue("football");
+                if (checkIfFileExists(fileName)) {
+                    analyzeFootballTeams(fileName);
+                } else {
+                    throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
+                        "resources/de/exxcellent/challenge folder.");
+                }
+            }
         }
         catch (ParseException | IOException | URISyntaxException e){
             System.out.println("There has been an error: " + e.getMessage());
@@ -62,4 +71,9 @@ public final class App {
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
     }
 
+    private static void analyzeFootballTeams(String fileName) throws IOException, URISyntaxException {
+        List<String[]> footballData = new CsvReader().readFile(fileName);
+        String teamWithSmallestGoalSpread = FootballAnalyzer.findTeamWithSmallestGoalSpread(footballData);
+        System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+    }
 }

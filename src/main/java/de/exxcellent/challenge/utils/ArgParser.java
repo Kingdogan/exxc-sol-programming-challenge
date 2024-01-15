@@ -27,6 +27,15 @@ public class ArgParser {
     weatherTask.setArgName("inputFile");
     options.addOption(weatherTask);
 
+    Option footballTask = new Option(
+        "f",
+        "football",
+        true,
+        "Executes the football task which reads the given input file and outputs the team with the " +
+            "smallest distance (absolute difference) between goals and goals allowed.");
+    footballTask.setArgName("inputFile");
+    options.addOption(footballTask);
+
     CommandLine cmd = null;
     try {
       cmd = parser.parse(options, args);

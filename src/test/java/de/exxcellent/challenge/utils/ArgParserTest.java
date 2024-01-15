@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class to test the functionality of the arg parser
+ */
 public class ArgParserTest {
   @Test
   void testParseArgsWeatherTask() {

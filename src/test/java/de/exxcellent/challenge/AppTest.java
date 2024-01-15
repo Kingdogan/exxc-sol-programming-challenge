@@ -24,6 +24,11 @@ class AppTest {
     }
 
     @Test
+    void runWeather() {
+        App.main("--weather", "weather.csv");
+    }
+
+    @Test
     void runFootball() {
         App.main("--football", "football.csv");
     }

@@ -1,5 +1,6 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.tasks.WeatherAnalyzer;
 import de.exxcellent.challenge.utils.ArgParser;
 import org.apache.commons.cli.*;
 
@@ -25,15 +26,13 @@ public final class App {
             if (cmd.hasOption("w") || cmd.hasOption("weather")) {
                 String fileName = cmd.getOptionValue("weather");
                 if (checkIfFileExists(fileName)) {
-                    System.out.println("Weather task!");
+                    String dayWithSmallestTempSpread = WeatherAnalyzer.findDayWithSmallestTemperatureSpread(fileName);
+                    System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
                 } else {
                     throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
                         "resources/de/exxcellent/challenge folder.");
                 }
             }
-
-            String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-            System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
 
             String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
             System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);

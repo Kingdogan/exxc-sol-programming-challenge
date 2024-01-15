@@ -10,7 +10,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CsvReader class for reading CSV files.
+ */
 public class CsvReader implements FileReader {
+  /**
+   * Reads the content of a CSV file.
+   *
+   * @param fileName The name of the CSV file.
+   * @return List of string arrays representing the CSV data.
+   * @throws IOException        If an I/O error occurs.
+   * @throws URISyntaxException If the file URL is not a valid URI.
+   */
   @Override
   public List<String[]> readFile(String fileName) throws IOException, URISyntaxException {
     // Check if file is csv file

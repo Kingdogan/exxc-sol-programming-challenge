@@ -4,12 +4,14 @@ import java.util.List;
 
 public class FootballAnalyzer {
 
+  private static final float INITIAL_MIN_GOAL_SPREAD = 1000000000;
+
   /**
    * This method finds the team with the smallest goal spread in the given data
    * @param footballData Data of the teams
    * @return Team with the smallest goal spread
    */
-  public static String findTeamWithSmallestGoalSpread(List<String[]> footballData) {
+  public static String findSmallestSpread(List<String[]> footballData) {
     // First we check if the columns Team, Goals and Goals allowed exist
     int columnTeam = findColumnIndex(footballData, "Team");
     if (columnTeam == -1) {
@@ -24,7 +26,7 @@ public class FootballAnalyzer {
       throw new IllegalArgumentException("Missing column: Goals Allowed");
     }
 
-    float minGoalSpread= 1000000000;
+    float minGoalSpread= INITIAL_MIN_GOAL_SPREAD;
     String teamSmallestSpread = "";
     for (int i = 1; i < footballData.size(); i++) {
       int goals = Integer.parseInt(footballData.get(i)[columnGoals]);

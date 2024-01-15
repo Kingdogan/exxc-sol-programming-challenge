@@ -17,7 +17,7 @@ public class FootballAnalyzerTest {
     String fileName = "football.csv";
     try {
       List<String[]> data = new CsvReader().readFile(fileName);
-      String team = FootballAnalyzer.findTeamWithSmallestGoalSpread(data);
+      String team = FootballAnalyzer.findSmallestSpread(data);
       assertEquals("Aston_Villa", team);
     } catch (IOException | URISyntaxException e) {
       fail(e.getMessage());
@@ -28,7 +28,7 @@ public class FootballAnalyzerTest {
   void testMissingColumnTeam() {
     List<String[]> testData = new ArrayList<>();
     testData.add(new String[]{"Goals","Goals Allowed"});
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findTeamWithSmallestGoalSpread(testData));
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findSmallestSpread(testData));
     assertEquals("Missing column: Team", exception.getMessage());
   }
 
@@ -36,7 +36,7 @@ public class FootballAnalyzerTest {
   void testMissingColumnGoals() {
     List<String[]> testData = new ArrayList<>();
     testData.add(new String[]{"Team","Goals Allowed"});
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findTeamWithSmallestGoalSpread(testData));
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findSmallestSpread(testData));
     assertEquals("Missing column: Goals", exception.getMessage());
   }
 
@@ -44,7 +44,7 @@ public class FootballAnalyzerTest {
   void testMissingColumnGoalsAllowed() {
     List<String[]> testData = new ArrayList<>();
     testData.add(new String[]{"Team", "Goals"});
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findTeamWithSmallestGoalSpread(testData));
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> FootballAnalyzer.findSmallestSpread(testData));
     assertEquals("Missing column: Goals Allowed", exception.getMessage());
   }
 }

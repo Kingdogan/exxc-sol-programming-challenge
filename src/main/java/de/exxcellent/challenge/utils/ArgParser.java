@@ -13,9 +13,26 @@ public class ArgParser {
    * This function parses the command line arguments
    * @param args The CLI arguments
    * @return The parsed CLI arguments
+   * @throws ParseException If there is an error parsing the arguments.
    */
   public static CommandLine parseArgs(String... args) throws ParseException {
     CommandLineParser parser = new DefaultParser();
+    Options options = createOptions();
+
+    CommandLine cmd = null;
+    try {
+      cmd = parser.parse(options, args);
+    } catch (ParseException e) {
+      String errMessage = "Error parsing command-line arguments: " + e.getMessage();
+      throw new ParseException(errMessage);
+    }
+    return cmd;
+  }
+
+  /**
+   * Create the options for this coding challenge
+   */
+  private static Options createOptions() {
     Options options = new Options();
 
     Option weatherTask = new Option(
@@ -36,13 +53,6 @@ public class ArgParser {
     footballTask.setArgName("inputFile");
     options.addOption(footballTask);
 
-    CommandLine cmd = null;
-    try {
-      cmd = parser.parse(options, args);
-    } catch (ParseException e) {
-      String errMessage = "Error parsing command-line arguments: " + e.getMessage();
-      throw new ParseException(errMessage);
-    }
-    return cmd;
+    return options;
   }
 }

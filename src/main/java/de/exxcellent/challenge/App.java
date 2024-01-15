@@ -30,28 +30,41 @@ public final class App {
 
             // weather task
             if (cmd.hasOption("w") || cmd.hasOption("weather")) {
-                String fileName = cmd.getOptionValue("weather");
-                if (checkIfFileExists(fileName)) {
-                    analyzeWeather(fileName);
-                } else {
-                    throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
-                        "resources/de/exxcellent/challenge folder.");
-                }
+                executeTask(cmd, "weather");
             }
 
             // football task
             if (cmd.hasOption("f") || cmd.hasOption("football")) {
-                String fileName = cmd.getOptionValue("football");
-                if (checkIfFileExists(fileName)) {
-                    analyzeFootballTeams(fileName);
-                } else {
-                    throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
-                        "resources/de/exxcellent/challenge folder.");
-                }
+                executeTask(cmd, "football");
             }
         }
         catch (ParseException | IOException | URISyntaxException e){
             System.out.println("There has been an error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Executes the football or weather task based on the provided task name.
+     *
+     * @param cmd      The parsed CLI arguments.
+     * @param taskName The name of the task to be executed ("weather" or "football").
+     * @throws IOException        If an I/O error occurs.
+     * @throws URISyntaxException If the file URL is not a valid URI.
+     * @throws FileNotFoundException If the specified file for the task is not found.
+     */
+    private static void executeTask(CommandLine cmd, String taskName) throws IOException, URISyntaxException {
+        String fileName = cmd.getOptionValue(taskName);
+        if (checkIfFileExists(fileName)) {
+            List<String[]> data = new CsvReader().readFile(fileName);
+            if (taskName.equals("weather")) {
+                analyzeWeather(data);
+            }
+            if (taskName.equals("football")) {
+                analyzeFootballTeams(data);
+            }
+        } else {
+            throw new FileNotFoundException("File " + fileName + " not found. Check if file is in the " +
+                "resources/de/exxcellent/challenge folder.");
         }
     }
 
@@ -65,15 +78,23 @@ public final class App {
         return fileURL != null;
     }
 
-    private static void analyzeWeather(String fileName) throws IOException, URISyntaxException {
-        List<String[]> weatherData = new CsvReader().readFile(fileName);
-        String dayWithSmallestTempSpread = WeatherAnalyzer.findDayWithSmallestTemperatureSpread(weatherData);
+    /**
+     * Analyzes weather data to find the day with the smallest temperature spread.
+     *
+     * @param weatherData The data of the weather.
+     */
+    private static void analyzeWeather(List<String[]> weatherData) {
+        String dayWithSmallestTempSpread = WeatherAnalyzer.findSmallestSpread(weatherData);
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
     }
 
-    private static void analyzeFootballTeams(String fileName) throws IOException, URISyntaxException {
-        List<String[]> footballData = new CsvReader().readFile(fileName);
-        String teamWithSmallestGoalSpread = FootballAnalyzer.findTeamWithSmallestGoalSpread(footballData);
+    /**
+     * Analyzes football data to find the team with the smallest goal spread.
+     *
+     * @param footballData The football data.
+     */
+    private static void analyzeFootballTeams(List<String[]> footballData) {
+        String teamWithSmallestGoalSpread = FootballAnalyzer.findSmallestSpread(footballData);
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 }

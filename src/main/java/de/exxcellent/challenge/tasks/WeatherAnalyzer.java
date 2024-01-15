@@ -2,14 +2,16 @@ package de.exxcellent.challenge.tasks;
 
 import java.util.List;
 
-public class WeatherAnalyzer {
+public class WeatherAnalyzer{
+
+  private static final float INITIAL_MIN_TEMP_SPREAD = 1000000000;
 
   /**
    * This method finds the day with the smallest temperature spread in the given data
    * @param weatherData Data of the weather
    * @return Day with the smallest temperature spread
    */
-  public static String findDayWithSmallestTemperatureSpread(List<String[]> weatherData) {
+  public static String findSmallestSpread(List<String[]> weatherData) {
     // First we check if the columns Day, MxT and MnT exist
     int columnDay = findColumnIndex(weatherData, "Day");
     if (columnDay == -1) {
@@ -24,7 +26,7 @@ public class WeatherAnalyzer {
       throw new IllegalArgumentException("Missing column: MnT");
     }
 
-    float minTempSpread= 1000000000;
+    float minTempSpread= INITIAL_MIN_TEMP_SPREAD;
     String daySmallestSpread = "";
     for (int i = 1; i < weatherData.size(); i++) {
       float maxTemp = Float.parseFloat(weatherData.get(i)[columnMxT]);
